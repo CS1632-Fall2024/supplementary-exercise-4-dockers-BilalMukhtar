@@ -36,65 +36,63 @@ public class D3Test {
   JavascriptExecutor js;
   @Before
   public void setUp() {
-    ChromeOptions options = new ChromeOptions();
-    options.addArguments("--headless");
-    driver = new ChromeDriver(options);
+    driver = new ChromeDriver();
     js = (JavascriptExecutor) driver;
     vars = new HashMap<String, Object>();
-    driver.get("http://localhost:8080");
+    driver.get("http://localhost:8080/");
     js.executeScript("document.cookie = \"1=false\";document.cookie = \"2=false\";document.cookie = \"3=false\";");
   }
   @After
   public void tearDown() {
     driver.quit();
   }
-  // @Test
-  // public void dEFECT1FUNFEED() {
-  //   driver.get("http://localhost:8080");
-  //   driver.findElement(By.xpath("//li[4]/a")).click();
-  //   driver.findElement(By.xpath("//input")).click();
-  //   driver.findElement(By.xpath("//input")).sendKeys("-3");
-  //   driver.findElement(By.xpath("//button")).click();
-  //   {
-  //     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-  //     wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\'feedResult\' and text()=\'Nom, nom, nom.\']")));
-  //   }
-  //   driver.close();
-  // }
-  // @Test
-  // public void dEFECT2FUNGREETACATWITHNAME() {
-  //   driver.get("http://localhost:8080");
-  //   driver.manage().window().setSize(new Dimension(1440, 875));
-  //   driver.findElement(By.linkText("Rent-A-Cat")).click();
-  //   driver.findElement(By.id("rentID")).click();
-  //   driver.findElement(By.id("rentID")).sendKeys("1");
-  //   driver.findElement(By.cssSelector(".form-group:nth-child(3) .btn")).click();
-  //   driver.get("http://localhost:8080greet-a-cat/Jennyanydots");
-  //   assertThat(driver.findElement(By.xpath("//div[2]/h4")).getText(), is("Meow! from Jennyanydots."));
-  //   driver.close();
-  // }
-  // @Test
-  // public void dEFECT3GREETACAT() {
-  //   driver.get("http://localhost:8080");
-  //   js.executeScript("document.cookie = \"1=true\";document.cookie = \"2=true\";document.cookie = \"3=true\";");
-  //   driver.findElement(By.xpath("//li[6]/a")).click();
-  //   assertThat(driver.findElement(By.xpath("//div[2]/h4")).getText(), is("Meow!Meow!Meow!"));
-  //   driver.close();
-  // }
+  @Test
+  public void dEFECT1FUNFEED() {
+    driver.get("http://localhost:8080/");
+    driver.findElement(By.xpath("//li[4]/a")).click();
+    driver.findElement(By.xpath("//input")).click();
+    driver.findElement(By.xpath("//input")).sendKeys("-3");
+    driver.findElement(By.xpath("//button")).click();
+    {
+      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+      wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\'feedResult\' and text()=\'Nom, nom, nom.\']")));
+    }
+    driver.close();
+  }
+  @Test
+  public void dEFECT2FUNGREETACATWITHNAME() {
+    driver.get("http://localhost:8080/");
+    driver.manage().window().setSize(new Dimension(1440, 875));
+    driver.findElement(By.linkText("Rent-A-Cat")).click();
+    driver.findElement(By.id("rentID")).click();
+    driver.findElement(By.id("rentID")).sendKeys("1");
+    driver.findElement(By.cssSelector(".form-group:nth-child(3) .btn")).click();
+    driver.get("http://localhost:8080/greet-a-cat/Jennyanydots");
+    assertThat(driver.findElement(By.xpath("//div[2]/h4")).getText(), is("Meow! from Jennyanydots."));
+    driver.close();
+  }
+  @Test
+  public void dEFECT3GREETACAT() {
+    driver.get("http://localhost:8080/");
+    js.executeScript("document.cookie = \"1=true\";document.cookie = \"2=true\";document.cookie = \"3=true\";");
+    driver.findElement(By.xpath("//li[6]/a")).click();
+    assertThat(driver.findElement(By.xpath("//div[2]/h4")).getText(), is("Meow!Meow!Meow!"));
+    driver.close();
+  }
   @Test
   public void tEST1LINKS() {
-    driver.get("http://localhost:8080");
+    driver.get("http://localhost:8080/");
     {
       WebElement element = driver.findElement(By.xpath("//li[8]/a"));
       String attribute = element.getAttribute("href");
       vars.put("reset", attribute);
     }
-    assertEquals(vars.get("reset").toString(), "http://localhost:8080reset");
+    assertEquals(vars.get("reset").toString(), "http://localhost:8080/reset");
     driver.close();
   }
   @Test
   public void tEST2RESET() {
-    driver.get("http://localhost:8080");
+    driver.get("http://localhost:8080/");
     js.executeScript("document.cookie = \"1=true\";document.cookie = \"2=true\";document.cookie = \"3=true\";");
     driver.findElement(By.xpath("//li[8]/a")).click();
     assertThat(driver.findElement(By.xpath("//div/ul/li[1]")).getText(), is("ID 1. Jennyanydots"));
@@ -104,19 +102,19 @@ public class D3Test {
   }
   @Test
   public void tEST3CATALOG() {
-    driver.get("http://localhost:8080");
+    driver.get("http://localhost:8080/");
     driver.findElement(By.xpath("//a")).click();
     {
       WebElement element = driver.findElement(By.xpath("//li[2]/img"));
       String attribute = element.getAttribute("src");
       vars.put("src", attribute);
     }
-    assertEquals(vars.get("src").toString(), "http://localhost:8080images/cat2.jpg");
+    assertEquals(vars.get("src").toString(), "http://localhost:8080/images/cat2.jpg");
     driver.close();
   }
   @Test
   public void tEST4LISTING() {
-    driver.get("http://localhost:8080");
+    driver.get("http://localhost:8080/");
     driver.findElement(By.xpath("//a")).click();
     {
       List<WebElement> elements = driver.findElements(By.xpath("//div/ul/li[3]"));
@@ -131,7 +129,7 @@ public class D3Test {
   }
   @Test
   public void tEST5RENTACAT() {
-    driver.get("http://localhost:8080");
+    driver.get("http://localhost:8080/");
     driver.findElement(By.linkText("Rent-A-Cat")).click();
     {
       List<WebElement> elements = driver.findElements(By.xpath("//button"));
@@ -145,7 +143,7 @@ public class D3Test {
   }
   @Test
   public void tEST6RENT() {
-    driver.get("http://localhost:8080");
+    driver.get("http://localhost:8080/");
     js.executeScript("document.cookie = \"1=false\";document.cookie = \"2=false\";document.cookie = \"3=false\";");
     driver.findElement(By.xpath("//li[2]/a")).click();
     driver.findElement(By.xpath("//input")).click();
@@ -159,7 +157,7 @@ public class D3Test {
   }
   @Test
   public void tEST7RETURN() {
-    driver.get("http://localhost:8080");
+    driver.get("http://localhost:8080/");
     js.executeScript("document.cookie = \"1=false\";document.cookie = \"2=true\";document.cookie = \"3=false\";");
     driver.findElement(By.xpath("//li[2]/a")).click();
     driver.findElement(By.xpath("//div[3]/div[2]/input")).click();
@@ -173,7 +171,7 @@ public class D3Test {
   }
   @Test
   public void tEST8FEEDACAT() {
-    driver.get("http://localhost:8080");
+    driver.get("http://localhost:8080/");
     driver.findElement(By.xpath("//li[4]/a")).click();
     {
       List<WebElement> elements = driver.findElements(By.xpath("//button"));
@@ -183,7 +181,7 @@ public class D3Test {
   }
   @Test
   public void tEST9FEED() {
-    driver.get("http://localhost:8080");
+    driver.get("http://localhost:8080/");
     driver.manage().window().setSize(new Dimension(1440, 875));
     driver.findElement(By.xpath("//li[4]/a")).click();
     driver.findElement(By.xpath("//input")).click();
@@ -197,14 +195,14 @@ public class D3Test {
   }
   @Test
   public void tEST10GREETACAT() {
-    driver.get("http://localhost:8080");
+    driver.get("http://localhost:8080/");
     driver.findElement(By.linkText("Greet-A-Cat")).click();
     assertThat(driver.findElement(By.xpath("//div[2]/h4")).getText(), is("Meow!Meow!Meow!"));
     driver.close();
   }
   @Test
   public void tEST11GREETACATWITHNAME() {
-    driver.get("http://localhost:8080greet-a-cat/Jennyanydots");
+    driver.get("http://localhost:8080/greet-a-cat/Jennyanydots");
     assertThat(driver.findElement(By.xpath("//div[2]/h4")).getText(), is("Meow! from Jennyanydots."));
     driver.close();
   }
